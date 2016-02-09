@@ -1,0 +1,160 @@
+<!--{template common/header_simple_start}-->
+<link href="static/css/common.css?{VERHASH}" rel="stylesheet" media="all">
+<link href="dzz/aceditor/images/aceditor.css?{VERHASH}" rel="stylesheet" media="all">
+<script src="dzz/aceditor/_aceditor.js?{VERHASH}"></script>
+
+<!-- load ace -->
+<script src="dzz/aceditor/scripts/ace.js"></script>
+<!-- load ace language tools -->
+<script src="dzz/aceditor/scripts/ext-language_tools.js"></script>
+<script src="dzz/aceditor/scripts/ext-modelist.js"></script>
+<script type="text/javascript">
+var indzz=1;
+try{
+	
+	var api=_api.init();
+	var appid=api.wname.appid;
+	api.setFileExt(_aceditor.getSupportExts());
+}catch(e){}
+
+</script>
+
+<!--{template common/header_simple_end}-->
+<div class="aceditor-Container" style="height:100%">
+  <div class="aceditor-default aceditor-toolbarbox" onselectstart="return false" style="-moz-user-select:none;">
+    <div class="aceditor-default aceditor-toolbarboxinner" >
+      <div class="aceditor-box aceditor-button aceditor-new " data-action="new" title="新建文件">
+        <div class="aceditor-box aceditor-icon "></div>
+      </div>
+      <div class="aceditor-box aceditor-button aceditor-open " data-action="open" title="打开文件">
+        <div class="aceditor-box aceditor-icon "></div>
+      </div>
+      <div class="aceditor-box aceditor-button aceditor-save disabled" data-action="save" title="保存文件">
+        <div class="aceditor-box aceditor-icon "></div>
+      </div>
+      <div class="aceditor-box aceditor-button aceditor-saveall disabled"  data-action="saveall" title="保存全部">
+        <div class="aceditor-box aceditor-icon "></div>
+      </div>
+      <div class="aceditor-box aceditor-separator"></div>
+      <div class="aceditor-box aceditor-button aceditor-undo" data-action="undo" title="撤销(Ctrl+Z)">
+        <div class="aceditor-box aceditor-icon "></div>
+      </div>
+      <div class="aceditor-box aceditor-button aceditor-redo"  data-action="redo" title="重做(Ctrl+Y)">
+        <div class="aceditor-box aceditor-icon "></div>
+      </div>
+      <div class="aceditor-box aceditor-separator"></div>
+      <div class="aceditor-box aceditor-combox" title="文字大小"  data-action="fontSize">
+        <div class="dropdown">
+          <button class="btn btn-combox dropdown-toggle" type="button" id="dropdownMenu_fontSize" data-toggle="dropdown"> 12px <span class="caret"></span> </button>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu_fontSize">
+            <!--{loop $_aceditor[fontsize] $value}-->
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" onclick="_aceditor.setFontSize(this.innerHTML);_aceditor.setting['fontSize']=this.innerHTML;_aceditor.setSettingCookie();jQuery('#dropdownMenu_fontSize').html(this.innerHTML+'<span class=\'caret\'></span>');return false;">$value</a></li>
+            <!--{/loop}-->
+          </ul>
+        </div>
+      </div>
+      <div class="aceditor-box aceditor-combox" title="代码风格"  data-action="theme">
+        <div class="dropdown">
+          <button class="btn btn-combox dropdown-toggle" type="button" id="dropdownMenu_codeStyle" data-toggle="dropdown"> tomorrow <span class="caret"></span> </button>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu_codeStyle">
+            <!--{loop $_aceditor[themes] $key $value}-->
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-theme="$key" onclick="_aceditor.setTheme(jQuery(this).data('theme'));_aceditor.setting['theme']=jQuery(this).data('theme');_aceditor.setSettingCookie();jQuery('#dropdownMenu_codeStyle').html(this.innerHTML+'<span class=\'caret\'></span>');return;false;">$value</a></li>
+            <!--{/loop}-->
+            
+          </ul>
+        </div>
+      </div>
+      <div class="aceditor-box aceditor-separator"></div>
+      <div class="aceditor-box aceditor-button aceditor-showGutter"  data-action="showGutter" title="显示/隐藏行号">
+        <div class="aceditor-box aceditor-icon "></div>
+      </div>
+      <div class="aceditor-box aceditor-button aceditor-wrapMode"  data-action="wrapMode"  title="自动换行">
+        <div class="aceditor-box aceditor-icon "></div>
+      </div>
+      <div class="aceditor-box aceditor-button aceditor-indentGuide"  data-action="indentGuide" title="显示/隐藏缩进辅助线">
+        <div class="aceditor-box aceditor-icon "></div>
+      </div>
+      <div class="aceditor-box aceditor-button aceditor-printMargin"  data-action="printMargin" title="显示/隐藏打印辅助线">
+        <div class="aceditor-box aceditor-icon "></div>
+      </div>
+      <div class="aceditor-box aceditor-button aceditor-autoComplete"  data-action="autoComplete" title="代码提示（开启/关闭）">
+        <div class="aceditor-box aceditor-icon "></div>
+      </div>
+      <div class="aceditor-box aceditor-button aceditor-BehavioursEnabled" data-action="BehavioursEnabled"  title="自动补全（开启/关闭）">
+        <div class="aceditor-box aceditor-icon "></div>
+      </div>
+      <div class="aceditor-box aceditor-button aceditor-showInvisible" data-action="showInvisible"  title="显示不可见字符">
+        <div class="aceditor-box aceditor-icon "></div>
+      </div>
+      <div class="aceditor-box aceditor-separator"></div>
+      <div class="aceditor-box aceditor-button aceditor-find" data-action="find" title="查找/替换(Ctrl+F/Ctrl-H)">
+        <div class="aceditor-box aceditor-icon "></div>
+      </div>
+      <div class="aceditor-box aceditor-button aceditor-jump"  data-action="jump" title="跳转到行(Ctrl+L)">
+        <div class="aceditor-box aceditor-icon "></div>
+      </div>
+      <div class="aceditor-box aceditor-separator"></div>
+      <div class="aceditor-box aceditor-button aceditor-setting" data-action="setting" title="设置(Ctrl+q)">
+        <div class="aceditor-box aceditor-icon "></div>
+      </div>
+      <div class="aceditor-box aceditor-button aceditor-shortcut"  data-action="shortcut" title="快捷键(Ctrl+Alt+h)">
+        <div class="aceditor-box aceditor-icon "></div>
+      </div>
+    </div>
+  </div>
+  <div id="editor_main" class="aceditor-main">
+    <div id="aceditor_tab_container" class="aceditor-tab-container">
+      <div class="hscroll btn-group">
+        <button type="button" class="btn btn-simple scrollLeft"><i class="glyphicon glyphicon-chevron-left"></i></button>
+        <button type="button" class="btn btn-simple scrollRight"><i class="glyphicon glyphicon-chevron-right"></i></button>
+      </div>
+      <ul id="aceditor_tab" class="aceditor-tab nav nav-tabs" role="tablist" style="min-height:26px;">
+      </ul>
+    </div>
+    <div id="aceditor_tab_content" class="aceditor-body tab-content" > </div>
+  </div>
+</div>
+<script type="text/javascript">
+ace.require("ace/ext/language_tools");
+
+window.multiOpen=function(url){
+	var path=getUrl('path',url);//url.match(/path=([\w|=]+)[&|$]/i);
+	if(path) _aceditor.Open(path);
+}
+window.onresize=function(){
+	_aceditor.setHeight();
+	_aceditor.tab.init();
+}
+function beforeunload(){
+	if(_aceditor.needsave.length>0) return '有文件需要保存，真的要退出？';
+}
+jQuery(document).ready(function(e) {
+	_aceditor.init({eval echo json_encode($_editor['setting']);});
+    var path=getUrl('path');
+	if(path){
+		_aceditor.Open(path);
+	}else{
+		_aceditor.New('new.txt');
+	}
+});
+
+function acceptdata(data){
+	   if(data.params.multiple){
+		  var datas=data.icodata; 
+	   }else{
+		   var datas=[data.icodata];
+	   }
+	   for(var i in datas){
+		   _aceditor.Open(datas[i].dpath);
+	   }
+}
+function getUrl(name,url) {
+	if(!url) url=window.location.search.substr(1);
+	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+	var r = url.match(reg);
+	if (r != null) return unescape(r[2]); return false;
+}
+	  
+</script> 
+<script src="static/bootstrap/js/bootstrap.min.js?{VERHASH}"></script> 
+<!--{template common/footer_simple}-->

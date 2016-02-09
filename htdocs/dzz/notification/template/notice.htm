@@ -1,0 +1,223 @@
+<!--{dzztemplate header_ajax}-->
+<ul class="Notice_tab" id="Notice_tab">
+	<li title="{lang notice}" class="<!--{if $do=='notice'}-->current<!--{/if}--> Notice_tab_item" do="notice"> 
+		<a class="Notice_tabmenu_icon" href="###"></a>
+		<div class="tab_icon">{lang notice}</div>
+	</li>
+	<li title="{lang notice_app}" class="Notice_tab_item <!--{if $do=='userapp'}-->current<!--{/if}-->" do="userapp" > 
+		<a class="Notice_tabmenu_icon" href="###"></a>
+		<div class="tab_icon">{lang notice_app}</div>
+	</li>
+	<li title="{lang notice_filter}" class="Notice_tab_item last <!--{if $do=='privacy'}-->current<!--{/if}-->" do="privacy" > 
+		<a class="Notice_tabmenu_icon" href="###"></a>
+		<div class="tab_icon">{lang notice_filter}</div>
+	</li>
+</ul>
+<div id="notice_MainArea" class="panel_mainArea">
+<!--{if $do=='userapp'}--> 
+	<script type="text/javascript">
+		function manyou_add_userapp(hash, url) {
+			if(isUndefined(url)) {
+				$(hash).innerHTML = "<tr><td colspan=\"2\">{lang successfully_ignored_information}</td></tr>";
+			} else {
+				$(hash).innerHTML = "<tr><td colspan=\"2\">{lang is_guide_you_in}</td></tr>";
+			}
+			var x = new Ajax();
+			x.get('home.php?mod=misc&ac=ajax&op=deluserapp&hash='+hash, function(s){
+				if(!isUndefined(url)) {
+					jQuery('#'+hash).parent().parent().remove();
+					window.open(url);
+				}
+			});
+		}
+	</script>
+	<div class="ct_vw cl">
+		<div class="ct_vw_mn"> 
+			<!--{if $list}--> 
+				<!--{loop $list $key $invite}-->
+				<div class="xld xlda"> 
+					<div class="nts">
+					<!--{loop $invite $value}-->
+					<dl class="bbda cl">
+						<dd class="m avt mbn"> <a href="home.php?mod=space&uid=$value[fromuid]" onclick="OpenWindow('profile','{DZZSCRIPT}?mod=dzzcp&op=userdetail&uid=$value[fromuid]','{lang profile}');return false;"><!--{avatar($value[fromuid],small)}--></a> </dd>
+						<dt id="$value[hash]">
+							<div class="userapp_msg">$value[myml]</div>
+						</dt>
+					</dl>
+					<div  class="line_spacer"></div>
+					<!--{/loop}--> 
+					</div>
+				</div>
+				<!--{/loop}--> 
+				<!--{if $multi}-->
+				<div class="pgs cl">$multi</div>
+				<!--{/if}--> 
+			<!--{else}-->
+				<div class="emp">{lang no_request_applications_invite}</div>
+			<!--{/if}--> 
+		</div>
+	</div>
+<!--{elseif $do=='privacy'}--> 
+{eval 
+					$iconnames['wall'] = '{lang message}';
+					$iconnames['piccomment'] = '{lang pic_comment}';
+					$iconnames['blogcomment'] = '{lang blog_comment}';
+					$iconnames['sharecomment'] = '{lang share_comment}';
+					$iconnames['magic'] = '{lang magics_title}';
+					$iconnames['sharenotice'] = '{lang share_notification}';
+					$iconnames['clickblog'] = '{lang blog_position}';
+					$iconnames['clickpic'] = '{lang pic_position}';
+					$iconnames['credit'] = '{lang credits}';
+					$iconnames['doing'] = '{lang doing}';
+					$iconnames['pcomment'] = '{lang topic_comment}';
+					$iconnames['post'] = '{lang topic_reply}';
+					$iconnames['show'] = '{lang friend_top}';
+					$iconnames['task'] = '{lang task}';
+					$iconnames['goods'] = '{lang trade}';
+					$iconnames['group'] = $_G[setting][navs][3][navname];
+					$iconnames['thread'] = '{lang theme}';
+					$iconnames['system'] = '{lang system}';
+					$iconnames['friend'] = '{lang friends}';
+					$iconnames['debate'] = '{lang debate}';
+					$iconnames['album'] = '{lang album}';
+					$iconnames['blog'] = '{lang blog}';
+					$iconnames['poll'] = '{lang poll}';
+					$iconnames['activity'] = '{lang activity}';
+					$iconnames['reward'] = '{lang reward}';
+					$iconnames['share'] = '{lang share}';
+					$iconnames['profile'] = '{lang update_presonal_profile}';
+					$iconnames['pusearticle'] = '{lang article_push}';
+				}
+				<div class="bm_c cl">
+				<form id="form_notice_privacy" method="post" autocomplete="off" action="{DZZSCRIPT}?mod=dim&op=notice&do=privacy" onsubmit="ajaxpost(this.id,'_panel_notice');">
+				<input type="hidden" name="formhash" value="{FORMHASH}" />
+				<input type="hidden" name="privacy2submit" value="true" />
+				<input type="hidden" name="handlekey" value="noticeprivacy" />
+					<table cellspacing="0" cellpadding="0" class="tfm">
+						<caption>
+							<p id="return_noticeprivacy" class="xg1">{lang filtering_rules_message_3}</p>
+						</caption>
+						<!--{if $types}-->
+							<!--{loop $types $key $type}-->
+								<!--{eval $uid = $uids[$key];$type_uid="$type|$uid";}-->
+							<tr><td>
+								<label>
+									<input type="checkbox" class="pc" name="privacy[filter_note][$type_uid]" value="1" checked="checked" />
+									<!--{if isset($iconnames[$type])}-->$iconnames[$type]<!--{else}-->$type<!--{/if}--> (<!--{if $users[$uid]}--><a href="home.php?mod=space&uid=$uid" target="_blank">$users[$uid]</a><!--{else}-->{lang all_friends}<!--{/if}-->)
+								</label>
+								
+							</td></tr>
+							<!--{/loop}-->
+						<tr>
+							<td><button type="submit" name="privacy2submit" value="true" class="pn pnc" /><strong>{lang save}</strong></button></td>
+						</tr>
+						<!--{else}-->
+						<tr>
+							<td >{lang no_shield_feed_cat}</td>
+						</tr>
+						<!--{/if}-->
+					</table>
+					</form>
+				</div>
+<!--{else}--> 
+	<!--{if empty($list)}-->
+		<div class="emp mtw ptw hm xs2"> 
+			<!--{if $_GET[isread] != 1}--> 
+			{lang no_new_notice}
+			<!--{else}--> 
+			{lang no_notice} 
+			<!--{/if}--> 
+		</div>
+	<!--{/if}--> 
+	<script type="text/javascript">
+		function errorhandle_pokeignore(msg, values) {
+			deleteQueryNotice(values['uid'], 'pokeQuery');
+		}
+	</script> 
+	<!--{if $list}-->
+	<div class="xld xlda">
+		<div class="nts"> 
+			<!--{loop $list $key $value}-->
+			<dl class="cl {if $key==1}bw0{/if}" $value[rowid] notice="$value[id]">
+				<dd class="m avt mbn"> 
+					<!--{if $value[authorid]}--> 
+						<a href="home.php?mod=space&uid=$value[authorid]" onclick="OpenWindow('profile','{DZZSCRIPT}?mod=dzzcp&op=userdetail&uid=$value[authorid]','{lang profile}');return false;"><!--{avatar($value[authorid],small)}--></a> 
+					<!--{else}--> 
+						<img src="{IMGDIR}/systempm.png" alt="systempm" /> 
+					<!--{/if}--> 
+				</dd>
+				<dt> <a class="d b" href="home.php?mod=spacecp&ac=common&op=ignore&authorid=$value[authorid]&type=$value[type]&handlekey=addfriendhk_{$value[authorid]}" id="a_note_$value[id]" onclick="showWindow(this.id, this.href, 'get', 0);return false;" title="{lang shield}">{lang shield}</a> <span class="xg1 xw0"><!--{date($value[dateline], 'u')}--></span> </dt>
+				<dd class="ntc_body" style="$value[style]"> $value[note] </dd>
+			<div  class="line_spacer"></div>	
+			</dl>
+			<!--{/loop}--> 
+			<!--{if $page<$maxpage}-->
+				<div id="ajaxpage_next_notice"  class="ajaxpage_next" page="$page" maxpage="$maxpage" >
+					<div class="ajaxpage_next_left"></div>
+					<div class="ajaxpage_next_right"></div>
+					{lang more}
+				</div>
+			</div>
+		  <!--{/if}--> 
+		</div>
+	</div>
+ 	<!--{/if}--> 
+<!--{/if}--> 
+</div>
+<script type="text/javascript" reload="1">
+function chech_ajaxpage_next(el){
+	var page=parseInt(el.attr('page'));
+	var maxpage=parseInt(el.attr('maxpage'));
+	if(page<maxpage){
+		jQuery.get(DZZSCRIPT+'?mod=dim&op=notice&isread=1&page='+(page+1),function(html){
+			el.before(html);
+			el.attr('page',page+1);
+			if(page==maxpage-1){
+				el.remove();
+			}
+		});
+	}
+};
+jQuery("#ajaxpage_next_notice").hover(
+	function(){
+		jQuery(this).addClass('hover');
+	},
+	function(){
+		jQuery(this).removeClass('hover');
+	}
+);
+jQuery("#ajaxpage_next_notice").on('click',function(){
+	chech_ajaxpage_next(jQuery(this));
+	return false;
+});
+jQuery('#Notice_tab .Notice_tab_item').on('click',function(){
+	var Do=jQuery(this).attr('do');
+	ajaxget('{DZZSCRIPT}?mod=dim&op=notice&isread=1&do='+Do,'_panel_notice','_panel_notice');
+	return false;
+});
+jQuery('.ntc_body').find('a').each(function(){
+	var href=this.href;
+	if(href.indexOf('home.php?mod=space&uid=')!==-1){
+		var ado=getUrlParam(href,'do');
+		var uid=getUrlParam(href,'uid');
+		if(uid>0 && !ado ){
+			jQuery(this).on('click',function(){
+				OpenWindow('profile',DZZSCRIPT+'?mod=dzzcp&op=userdetail&uid='+uid,'{lang profile}');
+				return false;
+			});
+		}else{
+			jQuery(this).on('click',function(){
+				OpenWindow('url',href+'&indzz=1');
+				return false;
+			});
+		}
+	}else if(!this.onclick){
+		jQuery(this).on('click',function(){
+				OpenWindow('url',href+'&indzz=1');
+				return false;
+			});
+	}
+});
+jQuery('#notice_MainArea').css('height',jQuery('#_panel_notice').height()-jQuery('#Notice_tab').height());
+</script>
+<!--{dzztemplate footer_ajax}-->

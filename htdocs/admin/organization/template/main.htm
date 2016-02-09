@@ -1,0 +1,358 @@
+<!--{template common/header_simple_start}-->
+<link href="static/css/common.css?{VERHASH}" rel="stylesheet" media="all">
+<link href="admin/images/organization.css?{VERHASH}" rel="stylesheet" media="all">
+<script type="text-javascript" src="admin/scripts/admin.js?VERHASH"></script>
+
+<!--{template common/header_simple_end}-->
+<div class="container" style="height:100%">
+	<div id="tips" class="tips"></div>
+    
+  <div class="left-container">
+    <ul id="organization_list" class="list-item list-unstyled">
+      <!--{loop $organization $key $value}-->
+      <li class="mou-evt $value[active]" _orgid="$value[orgid]">
+      	<div title="$value[orgname]" class="list-wrap" style="width: auto; display: block;"> 
+        	<span class="name">$value[orgname]</span>
+            <a title="编辑机构" class="edit hide" href="javascript:void(0);"></a>
+            <a title="删除机构" class="del hide" href="javascript:void(0);"></a> 
+         </div>
+      </li>
+      <!--{/if}-->
+      <li id="add_organization" class="add" _orgid="0">
+        <div title="添加新机构" class="list-wrap" style="display: block;"> 
+        	<button type="button" class="btn btn-success" onclick="addOrganization(this)">添加新机构</button>
+         </div>
+      </li>
+    </ul>
+  </div>
+  <div class="main-container">
+  	<!--{if !$org}-->
+    <div class="tip" style="margin:10px;">
+            <div class="alert alert-info">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <h5>提示信息</h5>
+                <ul>
+                    <li>请选择左侧的机构来添加部门</li>
+                    <li>点击添加机构，来添加新机构</li>
+                </ul>
+            </div>
+        </div>
+    	
+    <!--{else}-->
+  	
+    <div class="main-content" style="min-width:580px;">
+       <form id="departform" action="{BASESCRIPT}?mod=organization&op=ajax" class="form-horizontal form-horizontal-left" method="post" onsubmit="ajaxpost(this.id,'return_department','return_department');">
+       <input type="hidden" name="orgid" value="$orgid" />
+        <input type="hidden" name="departsubmit" value="true" />
+        <input type="hidden" name="formhash" value="{FORMHASH}" />
+        <input type="hidden" name="handlekey" value="department" />
+       <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th width="50">排序</th>
+                  <th >机构部门</th>
+                  <th >快捷</th>
+                  <th width="160">成员(管理员)</th>
+                 
+                </tr>
+              </thead>
+             
+                <tr forgid="0" _orgid="$org[orgid]">
+                 <!-- <td><a href="javascript:;" class="expand" id="a_group_{$org[orgid]}">[-]</a></td>-->
+                  <td>&nbsp;</td>
+                   <td><div class="child-org">$org[orgname]<a href="javascript:;"  title="添加下级部门" onclick="addDepartment(this)"  style="float:none;padding-left:10px;"><i class="glyphicon glyphicon-plus">&nbsp;</i> </a></div></td>
+                  <td><input type="checkbox" name="indesk" title="创建桌面快捷方式" value="1"   <!--{if $org[indesk]}-->checked="checked"<!--{/if}--> /></td> 
+                  <td>
+                    
+                    <a href="javascript:;" _orgid="$org[orgid]" onclick="editModerators(this)"  title="添加（编辑）成员"><i class="glyphicon glyphicon-edit">&nbsp;</i></a><span id="membersum_{$org[orgid]}"><!--{if $org[membersum]}-->$org[membersum]<!--{/if}--></span> 
+                    <span id="moderators_username_{$org[orgid]}">
+                  	<!--{loop $org[moderators1] $value}-->
+                    	<a class="moderators-item" uid="$value[uid]" href="javascript:;">$value[username]</a>
+                    <!--{/loop}-->
+                    </span>
+                  </td>
+                </tr>
+               $html
+               
+            </table>
+            <div class="form-submit"><input class="btn btn-primary" type="submit" value="{lang submit}" >  &nbsp;&nbsp;<span id="return_department" class="text-warning"></span></div>
+          </form>
+        <div class="tip" style="margin:10px;">
+            <div class="alert alert-warning">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <h5>提示信息</h5>
+                <ul>
+                    <li>排序：值越大越靠后，只对同级起作用</li>
+                    <li><a ><i class="glyphicon glyphicon-edit"></i></a>图标旁的数字表示此部门成员数，所有管理员会在此显示</li>
+                    <li>点击<a ><i class="glyphicon glyphicon-edit"></i></a>图标可以添加删除部门成员，点击成员头像前面的<a><i class="glyphicon glyphicon-user"></i></a>设置为管理员</li>
+                    <li>每个机构或部门都会在企业盘内生成同名的共享目录,用于公用文件和目录的共享</li>
+                    <li>勾选”创建桌面快捷方式“后，会在此部门的用户桌面创建此部门同名的共享目录的快捷方式</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+     <!--{/if}-->
+  </div>
+</div>
+
+<div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="padding:10px;">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 id="myModalLabel">选择管理员</h4>
+            </div>
+            <div class="modal-body">
+               
+            </div>
+            <div class="modal-footer" style="margin-top:0px;">
+                
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button id="seluser_save" class="btn btn-primary" data-loading-text="保存中...">保存</button>
+            </div>
+       </div>
+   </div>
+</div>
+<script type="text/javascript">
+var url='{BASESCRIPT}?mod=organization';
+
+function succeedhandle_department(url, message, values) {
+			window.location.reload();
+		};
+		
+function fixTree(){
+	jQuery('.table tr .tree-heng1').each(function(){
+		var tr=jQuery(this).parent().parent().parent();
+		var dep=jQuery(this).parent().find('.tree-su').size();
+		
+		tr.nextAll().each(function(){
+			var child_org=jQuery(this).find('.child-org');
+			var dep1=child_org.find('.tree-su').size();
+			if(dep1<=dep) return false;
+			else{
+				child_org.find('.tree-su').eq(dep).removeClass('tree-su');
+			}
+		});
+		
+	});
+	jQuery('.table tr:last-child td').css('border-bottom','1px solid #DDDDDD');
+}
+
+jQuery(document).ready(function(e) {
+	//修正部门树指示
+	fixTree();
+	
+	jQuery('.left-container')
+	.on('mouseover',function(e){
+		jQuery(this).addClass('left-container-scroll');
+	}) 
+	.on('mouseout',function(e){
+		jQuery(this).removeClass('left-container-scroll');
+	});
+    jQuery(document)
+		.on('mouseover','#organization_list .mou-evt',function(e){
+			if(!jQuery(this).hasClass('sel')) jQuery(this).addClass('hover');
+			jQuery(this).find('.hide').addClass('visible').removeClass('hide');
+		})
+		.on('mouseout','#organization_list .mou-evt',function(e){
+			jQuery(this).removeClass('hover');
+			jQuery(this).find('.visible').addClass('hide').removeClass('visible');
+		})
+		.on('click','#organization_list .mou-evt',function(e){
+			e=e?e:window.event;
+			var tag = e.srcElement ? e.srcElement :e.target;
+			if(tag.type=="text"||tag.type=="textarea"){
+				return true;
+			}		
+			var orgid=jQuery(this).attr('_orgid');
+			location.href='{BASESCRIPT}?mod=organization&orgid='+orgid;
+			return false;
+		});
+
+
+	jQuery(document).on('click','.list-wrap .edit',function(){
+		jQuery(this).parent().hide();
+		var name=jQuery(this).parent().find('.name').html();
+		var edithtml="";
+		edithtml+='<div class="g-edit"><input type="text" class="form-control input-sm" maxlength="10" value="'+name+'" onblur="editOrganization(this)" onkeydown="if(event.keyCode==13){editOrganization(this)}"></div>' ;
+		var el=jQuery(edithtml).appendTo(jQuery(this).parent().parent());
+		el.find('input').focus();
+		return false;
+	});
+	//删除机构
+
+	jQuery(document).on('click','.list-wrap .del',function(){
+		var li = jQuery(this).parent().parent();
+		var orgid=li.attr('_orgid');
+		var orgname=li.find('.name').html();
+		showTips('正在删除机构"'+orgname+'"<br>请稍候...',0,'info');
+		jQuery.getJSON(url+'&op=ajax&do=deleteorg&orgid='+orgid,function(json){
+			if(json.error){
+				showTips(json.error,3000,'danger');
+			}else{
+				showTips('机构"'+json.orgname+'"删除成功',3000,'danger');
+				if(li.hasClass('sel')) {
+					location.href=url;
+				}else li.remove();
+			}
+		});
+		return false;
+	});
+});
+function editModerators(obj){
+	jQuery('#myModalLabel').html('成员管理');
+	var tr=jQuery(obj).parent().parent();
+	var depid=tr.attr('_orgid');
+	var url1='misc.php?mod=seluser&orgid='+depid;
+	
+	jQuery('#myModal .modal-body').load(url1,function(){
+		
+	});
+	jQuery('#myModal').modal();
+	jQuery('#seluser_save').off().on('click',function(){
+		var uids=[];
+		var moderators=[];
+		var html='';
+		jQuery('#seluser_selected li').each(function(){
+			var uid=jQuery(this).attr('uid');
+			var username=jQuery(this).attr('username');
+			uids.push(uid);
+			if(jQuery(this).find('.setmoderator').hasClass('glyphicon glyphicon-user')){
+				moderators.push(uid);
+				html+='<a href="javascipt:;" uid="'+uid+'" class="moderators-item">'+username+'</a>';
+			}
+			
+		});
+		jQuery.getJSON(url+'&op=ajax&do=savemoderators&orgid='+depid,{"muids":moderators.join(','),"uids":uids.join(',')},function(json){
+			if(json.error){
+				jQuery('#seluser_save').html(json.error);
+			}else{
+				jQuery('#membersum_'+depid).html(uids.length?uids.length:'');
+				jQuery('#moderators_username_'+depid).html(html);
+				jQuery('#myModal').modal('hide')
+			}
+		});
+	});
+}
+
+function addDepartment(obj){
+	var tr=jQuery(obj).parent().parent().parent();
+	var forgid = tr.attr('forgid');
+	var orgid=tr.attr('_orgid');
+	var dep=jQuery(obj).parent().find('.child-tree').size();
+	var html='';
+	html+='	<tr  forgid="'+forgid+'" _orgid="add">';
+	html+=' 	<td><input type="text"  class="form-control input-sm" style="width:40px;" value="0"  name="addorg[disp][]" ><input type="hidden" name="addorg[forgid][]" value="'+orgid+'"></td>';
+	html+='		<td><div class="child-org">';
+		for(var i=0;i<dep;i++){
+			html+='<span class="child-tree">&nbsp;</span>';
+		}
+			html+='<span class="child-tree tree-heng">&nbsp;</span>';
+	html+='			<input type="text" value="" name="addorg[orgname][]"  class="form-control input-sm" maxlength="10"> <a href="javascript:;"  onclick="delDepartment(this)" title="删除此部门" style="padding-left:10px;"><i class="glyphicon glyphicon-remove">&nbsp;</i></a>';
+	html+='</div></td>&nbsp;<td></td>&nbsp;<td></tr>';
+	tr.after(html);
+	return false;
+}
+function delDepartment(obj){
+	var li = jQuery(obj).parent().parent().parent();
+	var orgid=li.attr('_orgid');
+	if(orgid=='add'){
+		li.remove();
+		return false;
+	}
+	var forgid=li.attr('forgid');
+	var orgname=li.find('input').val();
+	showTips('正在删除部门"'+orgname+'"<br>请稍候...',0,'info');
+	jQuery.getJSON(url+'&op=ajax&do=deleteorg&orgid='+orgid,function(json){
+		if(json.error){
+			showTips(json.error,3000,'danger');
+		}else{
+			showTips('部门"'+json.orgname+'"删除成功',3000,'danger');
+			li.remove();
+			fixTree();
+			if(jQuery('tr[forgid='+forgid+']').size()<1){ //如果没有下级机构，添加删除按钮
+				jQuery('#depart_'+forgid+' .child-org').append('<button onclick="delDepartment(this)" title="删除此部门" type="button" style="float:none;padding-left:10px;" class="close "><strong style="font-size:20px;">×</strong></button>');
+			}
+		}
+	});
+	return false;
+}
+function addOrganization(obj){
+	var li=jQuery('#add_organization');
+	jQuery(obj).replaceWith('<input type="text" class="input-sm form-control" maxlength="10" value="" onblur="editOrganization(this)" onkeydown="if(event.keyCode==13){editOrganization(this)}">');
+	li.find('input').focus();
+}
+function printOrganizationItem(arr){
+	if(!arr.orgid) return;
+	var html='';
+		html+='<li class="mou-evt " _orgid="'+arr.orgid+'">';
+      	html+='<div title="'+arr.orgname+'" class="list-wrap" style="width: auto; display: block;"> ';
+        html+='	<span class="name">'+arr.orgname+'</span>';
+        html+='    <a title="编辑机构" class="edit hide" href="javascript:void(0);"></a>';
+        html+='    <a title="删除机构" class="del hide" href="javascript:void(0);"></a> ';
+        html+='  </div>';
+        html+='</li>';
+	jQuery('#add_organization').before(html);
+}
+var Orgediting='';
+function editOrganization(obj){
+	var li=jQuery(obj).parent().parent();
+	var orgid=parseInt(li.attr('_orgid'));
+	var name=(jQuery(obj).val());
+	var needupdate=false;
+	if(name!=''  && name!=li.find('.name').html() ) needupdate=true;
+	var tip='';
+	if(orgid>0){
+		tip='正在编辑机构，请稍候...';
+		
+	}else{
+		tip='正在添加机构，请稍候...';
+	}
+	if(needupdate){
+		if(Orgediting) return;
+		showTips(tip ,0,'info');
+		Orgediting=name;
+		jQuery.getJSON(url+'&op=ajax&do=editorg&orgid='+orgid+'&name='+encodeURIComponent(name),function(json){
+			if(json.error){
+				showTips(json.error,3000,'danger');
+			}else{
+				if(orgid>0){
+					showTips('机构编辑成功',3000,'success');
+					li.find('.list-wrap').show();
+					li.find('.name').html(json.orgname);
+					jQuery(obj).parent().remove();
+				}else{
+					showTips('机构添加成功',3000,'success');
+					printOrganizationItem(json);
+					jQuery(obj).replaceWith('<button type="button" class="btn btn-success" onclick="addOrganization(this)">添加新机构</button>');
+				}
+			}
+			Orgediting='';
+		});
+	}else{
+		if(orgid>0){
+			li.find('.list-wrap').show();
+			jQuery(obj).parent().remove();
+		}else{
+			jQuery(obj).replaceWith('<button type="button" class="btn btn-success" onclick="addOrganization(this)">添加新机构</button>');
+		}
+	}
+	
+	
+};
+function showTips(msg,timeout,type){ //msg:{status:'ok',message:'成功创建组',name:'dsfsfs',right:''};
+   if(!type)  var style='';
+   else var style='alert-'+type;
+	var html='';
+	html+='<div class="alert '+style+' fade in">';
+    html+='   <button data-dismiss="alert" class="close" type="button">×</button>';
+    html+=     msg;
+    html+='</div>';
+	jQuery('#tips').html(html);
+	if(timeout) window.setTimeout(function(){jQuery('#tips').html('')},timeout);
+};
+
+
+</script>
+<script src="static/bootstrap/js/bootstrap.min.js"></script>
+<!--{template common/footer_simple}-->

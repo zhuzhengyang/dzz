@@ -1,0 +1,65 @@
+<!--{template common/header_simple_start}-->
+<link href="static/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="all">
+<link href="admin/images/common.css?{VERHASH}" rel="stylesheet" media="all">
+<link href="dzz/document/images/document.css?{VERHASH}" rel="stylesheet" media="all">
+<script type="text/javascript" src="dzz/scripts/jquery-1.10.2.min.js"></script>
+<script src="dzz/document/umeditor/umeditor.config.js?{VERHASH}"></script>
+<script src="dzz/document/umeditor/umeditor.min.js?{VERHASH}"></script>
+<script src="dzz/document/umeditor/lang/zh-cn/zh-cn.js?{VERHASH}"></script>
+
+<!--{template common/header_simple_end}-->
+<div class="container" style="height:100%">
+  	<!--<div class="main-header clearfix">
+        <ul class="nav nav-pills" style="padding-top:3px;margin:0;" >
+              <li class="active"><a href="{BASESCRIPT}?mod=connect">我的云</a></li>
+              <li><a href="{BASESCRIPT}?mod=document&op=edit&did=$did">编辑</a></li>
+        </ul>
+        
+    </div>-->
+	<div class="main-content clearfix">
+    	<div class="document-container" >
+        	<div class="document-header">
+            	<h3 class="document-subject">$document[subject]</h3>
+                <div class="document-info">
+                    
+                     <!--{if $document[version]>1}-->
+                     <ul class="nav nav-pills pull-left" style="margin:0;">
+                         <li class="dropdown">
+                              <!--{if $version}-->
+                              <a href="javascript:;" data-toggle="dropdown" role="button" style="padding:3px 10px 3px 18px"  class="dropdown-toggle">
+                              <!----><strong>#{$version}：</strong>{eval echo dgmdate($current[dateline])} by {$current[username]}</span><b class="caret"></b>
+                              </a>
+                             
+                              <!--{else}-->
+                              <a href="javascript:;" data-toggle="dropdown" role="button" style="padding:3px 0"  class="dropdown-toggle">{$document[dateline]} by {$document[username]}</span><b class="caret"></b></a>
+                               <!--{/if}-->
+                              <ul aria-labelledby="drop-org" role="menu" class="dropdown-menu" >
+                                <!--{loop $versions $value1}-->
+                                  <li role="presentation"><a href="{DZZSCRIPT}?mod=document&did=$did&v=$value1[version]" tabindex="-1" role="menuitem"><strong>#{$value1[version]}：</strong>{eval echo dgmdate($value1[dateline])} by {$value1[username]}</a></li>
+                                <!--{/loop}-->
+                                </ul>
+                          </li>
+                       </ul>
+                     <!--{else}-->
+                      <a  href="javascript:;"  class="version-list  pull-left" id="version" >
+                     	{$document[dateline]} by {$document[username]}
+                     </a>
+                     <!--{/if}-->
+                   <!--{if $version }-->
+                     	<!--{if $document[version]!=$version }--><a class="pull-left" href="{DZZSCRIPT}?mod=document&op=ajax&do=reversion&did=$did&v=$version">使用此版本 </a> <!--{/if}--> <a class="pull-right" href="{DZZSCRIPT}?mod=document&did=$did">回到文档</a>
+                   <!--{else}-->
+                   		  <a class="pull-right" href="{DZZSCRIPT}?mod=document&op=ajax&do=delete&did=$document[did]" onclick="if(confirm('确定要删除此文档吗？')){return true}else{return false}">删除</a> 
+                          <a class="pull-right" href="{DZZSCRIPT}?mod=document&op=edit&did=$document[did]">编辑</a>
+                   <!--{/if}-->
+                       
+                     
+                </div>
+            </div>
+            <div class="document-body">$str</div>
+            <div class="document-comment">评论都在此显示</div>
+        </div
+    ></div>
+</div>
+ 
+ <script src="static/bootstrap/js/bootstrap.min.js?{VERHASH}"></script>
+<!--{template common/footer_simple}-->

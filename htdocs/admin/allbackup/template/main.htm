@@ -1,0 +1,37 @@
+<!--{template common/header_simple_start}-->
+<link href="static/css/common.css?{VERHASH}" rel="stylesheet" media="all">
+<style>
+body{
+	background:#FBFBFB;
+}
+</style>
+<!--{template common/header_simple_end}-->
+
+    <div class="main-content clearfix">
+    
+       <table class="table table-hover" >
+              <thead>
+               
+                  <th>备份目录</th>
+                 
+                  <th>操作</th>
+                  
+                
+              </thead>
+             
+             <!--{loop $list $value}-->
+                <tr>
+                  <td >./data/allbackup/$value/</td>
+                  
+                  <td><a class="btn btn-link" href="{ADMINSCRIPT}?mod=allbackup&do=restore&folder=$value" onclick="if(confirm('确定要恢复此备份吗？')){return true}else{return false}">恢复</a>&nbsp;&nbsp;<a class="btn btn-link" href="{ADMINSCRIPT}?mod=allbackup&do=delete&folder=$value" onclick="if(confirm('确定要删除此备份吗？')){return true}else{return false}">删除</a></td>
+                 
+                </tr>
+             <!--{/loop}-->
+             <tr><td colspan="5"><a class="btn btn-primary" href="{ADMINSCRIPT}?mod=allbackup&do=backup" onclick="if(confirm('确定要备份当前的版本吗？')){return true}else{return false}">创建当前版本的备份</a></td></tr>
+            </table>
+            
+    </div>
+<script type="text/javascript">
+
+</script>
+<!--{template common/footer_simple}-->

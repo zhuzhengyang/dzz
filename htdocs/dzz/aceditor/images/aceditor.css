@@ -1,0 +1,263 @@
+html,body {
+        overflow: hidden;background-color:#FFF;
+   }
+    
+    .tab-content { 
+        margin: 0;
+        position: absolute;
+        top: 55px;
+        bottom: 0;
+        left: 0;
+        right: 0;
+		background-color:#FFF;
+    }
+	.tab-pane{
+		width:100%;
+		height:100%;
+	}
+	
+	.aceditor-tab-container{
+		position:relative;
+		height:26px;
+		overflow:hidden;
+		border-bottom: 1px solid #e1e1e1;
+		background-color: #fafafa;
+	
+	}
+	.aceditor-tab-container .hscroll{
+		position:absolute;
+		z-index:1;
+		right:0;
+		top:0;
+		
+		display:none;
+	}
+	.aceditor-tab-container.ishscroll .hscroll{
+		display:block;
+	}
+	.aceditor-tab-container .hscroll .btn{
+		padding:3px 5px;
+		border-top:0;
+		border-bottom:0;
+	}
+	.aceditor-tab{
+		position:absolute;
+		left:0px;
+		top:0px;
+		height:26px;
+		border:0;
+		white-space:nowrap;
+		border-bottom:0;
+	}
+	.aceditor-tab>li{
+		margin:0;border-radius:0;
+		background-color:#fafafa;
+		position:relative;float:none;
+		display:inline-block;
+		min-width:80px;
+		
+	}
+	.aceditor-tab>li>a{
+		border:0;
+		margin:0;
+		border-radius:0;
+		padding:2px 20px 2px 5px;
+		background-color:#f6f6f6;
+		background-image:none;
+		border-left:1px solid #FFF;
+		border-right:1px solid #bebebe;
+		border-top:1px solid #FFF;
+		color:#353535;
+		text-shadow:1px 1px 1px #FFF;
+			
+	}
+	.aceditor-tab>li>span.tabclose{
+		position:absolute;
+		display:inline-block;
+		width:16px;
+		height:16px;
+		right:2px;
+		top:5px;
+		background:url('./icons.png') no-repeat 0 -240px;	
+		opacity: 0.3;
+		filter: alpha(opacity = 30);	
+	}
+	
+	.aceditor-tab>li.aceditor-changed>span.tabclose{
+		background-position:0 -224px;
+	}
+	.aceditor-tab>li>span.tabclose:hover{
+		background-position:0 -256px;
+	}
+	.nav-tabs>li.active>span.tabclose{
+		opacity: 1;
+		filter: alpha(opacity = 100);	
+	}
+	.aceditor-tab>li>a:hover,.aceditor-tab>li>a:focus{
+		border:0;
+		margin:0;
+		background-color:#f6f6f6;
+		background-image:none;
+		border-left:1px solid #FFF;
+		border-right:1px solid #bebebe;
+		border-top:1px solid #FFF;
+		color:#353535;
+		text-shadow:1px 1px 1px #FFF;
+	}
+	.nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus{
+		color:#FFF;
+		border:0;
+		margin:0;
+		border-radius:0;
+		background-color:#00b266;
+		text-shadow:1px 1px 1px #2ca46d;
+		box-shadow: inset 0 0 1px #FFF;
+	}
+	.aceditor-toolbarbox{
+		border-bottom: 1px solid #d4d4d4;
+		background-color: #fafafa;
+		background-image: -moz-linear-gradient(top, #ffffff, #f2f2f2);
+		background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#f2f2f2));
+		background-image: -webkit-linear-gradient(top, #ffffff, #f2f2f2);
+		background-image: -o-linear-gradient(top, #ffffff, #f2f2f2);
+		background-image: linear-gradient(to bottom, #ffffff, #f2f2f2);
+		background-repeat: repeat-x;
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#fff2f2f2', GradientType=0);
+		
+	}
+	.aceditor-toolbarboxinner{
+		padding: 2px;
+	}
+	div.aceditor-box {
+		position: relative;
+		display: -moz-inline-box !important;
+		display: inline-block !important;
+		vertical-align: top;
+		
+	}
+	.aceditor-default div {
+		width: auto;
+		height: auto;
+	}
+	.aceditor-default .aceditor-box{
+		border: none;
+		padding: 0;
+		margin: 0;
+	}
+	.aceditor-default .aceditor-button{
+		margin:1px;
+		padding:2px;
+		width:20px;
+		height:20px
+	}
+	.aceditor-default .aceditor-button .aceditor-icon{
+		height: 16px !important;
+		width: 16px !important;
+		background-image: url(./icons.png);
+	}
+	
+	.aceditor-default .aceditor-button:hover{
+		background-color: #efefef;
+		padding: 1px;
+		border: 1px solid #dcac6c;
+		border-radius: 2px;
+		-webkit-border-radius: 2px;
+		-moz-border-radius: 2px;
+	}
+	.aceditor-default .aceditor-button.checked{
+		background-color: #ffe69f;
+		padding: 1px;
+		border: 1px solid #dcac6c;
+		border-radius: 2px;
+		-webkit-border-radius: 2px;
+		-moz-border-radius: 2px;
+	}
+	.aceditor-default .aceditor-button.disabled:hover{
+		background-color: transparent;
+		padding: 2px;
+		border: 0;
+		border-radius: 0;
+		-webkit-border-radius: 0;
+		-moz-border-radius: 0;
+	}
+	.aceditor-default .aceditor-button.disabled .aceditor-icon {
+		opacity: 0.3;
+		filter: alpha(opacity = 30);
+	}
+	
+	.aceditor-default .aceditor-separator {
+		width: 2px;
+		height: 20px;
+		margin: 2px 4px 2px 3px;
+		background: url(../images/icons.png) 0 -382px;
+	}
+	
+	.aceditor-default .aceditor-open .aceditor-icon{
+		background-position: 0 -1px;
+	}
+	.aceditor-default .aceditor-save .aceditor-icon{
+		background-position: 0 -16px;
+	}
+	.aceditor-default .aceditor-saveall .aceditor-icon{
+		background-position: 0 -32px;
+	}
+	.aceditor-default .aceditor-undo .aceditor-icon{
+		background-position: 0 -48px;
+	}
+	.aceditor-default .aceditor-redo .aceditor-icon{
+		background-position: 0 -64px;
+	}
+	
+	.aceditor-default .aceditor-jump .aceditor-icon{
+		background-position: 0 -96px;
+	}
+	.aceditor-default .aceditor-find .aceditor-icon{
+		background-position: 0 -128px;
+	}
+	.aceditor-default .aceditor-showGutter .aceditor-icon{
+		background-position: 0 -272px;
+	}
+	.aceditor-default .aceditor-wrapMode .aceditor-icon{
+		background-position: 0 -288px;
+	}
+	.aceditor-default .aceditor-indentGuide .aceditor-icon{
+		background-position: 0 -320px;
+	}
+	.aceditor-default .aceditor-printMargin .aceditor-icon{
+		background-position: 0 -304px;
+	}
+	.aceditor-default .aceditor-showInvisible .aceditor-icon{
+		background-position: 0 -160px;
+	}
+	.aceditor-default .aceditor-autoComplete .aceditor-icon{
+		background-position: 0 -192px;
+	}
+	.aceditor-default .aceditor-shortcut .aceditor-icon{
+		background-position: 0 -112px;
+	}
+	.aceditor-default .aceditor-setting .aceditor-icon{
+		background-position: 0 -208px;
+	}
+	.aceditor-default .aceditor-BehavioursEnabled .aceditor-icon{
+		background-position: 0 -335px;
+	}
+	.aceditor-default .aceditor-new .aceditor-icon{
+		background-position: 0 -352px;
+	}
+	.aceditor-combox .dropdown-menu{
+		max-height:300px;
+		overflow-x:hidden;
+		overflow-y:auto;
+	}
+	.aceditor-combox .dropdown .btn-combox{
+		padding:2px 12px;
+		font-size:12px;
+		vertical-align:inherit;
+		background-color:#FFF;
+		border-color:#e1e1e1;
+	}
+	
+	.aceditor-combox .btn-combox:hover,.aceditor-combox  .btn-combox:focus,.aceditor-combox  .btn-combox:active,.aceditor-combox  .btn-combox.active, .open>.dropdown-toggle.btn-combox {
+		background-color: #ffe69f;
+		border-color: #dcac6c;
+	}

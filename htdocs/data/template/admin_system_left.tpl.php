@@ -1,0 +1,4 @@
+<?php if(!defined('IN_DZZ')) exit('Access Denied'); $oparr=array('updatecache','database','cron','upgrade','log');?><?php $leftmenu=array();?><?php foreach($oparr as $key => $value){?><?php $leftmenu[$value]=array('title'=>lang('message',$value),'active'=>'');?><?php if($value==$op) $leftmenu[$value]['active']='class="active"';?><?php }?><ul class="nav nav-pills nav-stacked nav-pills-leftguide" style="margin:10px 0;">
+   <?php if(is_array($leftmenu)) foreach($leftmenu as $key => $value) { ?>          <li <?php echo $value['active'];?>><a hidefocus="true" href="<?php echo BASESCRIPT;?>?mod=<?php echo $mod;?>&op=<?php echo $key;?>"><?php echo $value['title'];?></a></li>
+     <?php } ?> 
+</ul>

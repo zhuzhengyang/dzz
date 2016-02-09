@@ -1,0 +1,137 @@
+<!--{template common/header_simple_start}-->
+<link href="static/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="all">
+<link href="admin/images/common.css?{VERHASH}" rel="stylesheet" media="all">
+<link href="dzz/document/umeditor/themes/default/css/umeditor.min.css?{VERHASH}" rel="stylesheet" media="all">
+<link href="dzz/document/images/document.css?{VERHASH}" rel="stylesheet" media="all">
+<script type="text/javascript" src="dzz/scripts/jquery-1.10.2.min.js"></script>
+<script src="dzz/document/umeditor/umeditor.config.js?{VERHASH}"></script>
+<script src="dzz/document/umeditor/umeditor.min.js?{VERHASH}"></script>
+<script src="dzz/document/umeditor/lang/zh-cn/zh-cn.js?{VERHASH}"></script>
+
+<!--{template common/header_simple_end}-->
+<div class="container" style="height:100%">
+  	<!--<div class="main-header clearfix" style="background:#FFF">
+        <ul class="nav nav-pills pull-left" style="padding-top:3px;margin:0" >
+              
+        </ul>
+    </div>-->
+    
+	<div class="main-content clearfix">
+    	<div style="">
+           <form id="editform" name="editform" class="form-horizontal" action="{BASESCRIPT}?mod=document&op=edit" method="post" >
+            <input type="hidden" name="edit" value="true" />
+            <input type="hidden" name="did" value="$did" />
+            <input type="hidden" name="formhash" value="{FORMHASH}" />
+               <div style="width:800px;margin:20px auto 40px;">
+                    <div class="editor-edit-subject"><input id="subject" name="subject" class="doc-subject" value="$document[subject]" placeholder="文档标题" autocomplete="off"></div>
+                    <script type="text/plain" id="editor" style="width:100%;height:250px;">$str</script>
+                    <p style="padding:10px"><input type="submit" value="保存" class="btn btn-primary" /></p>
+                </div>
+                
+			</form>
+        </div>
+    </div>
+ </div>
+ <script type="text/javascript">
+  var ue = UM.getEditor('editor', {
+        imageUrl:DZZSCRIPT + "?mod=document&op=ajax&do=imageUpload",
+        imagePath:"http://",
+        lang:/^zh/.test(navigator.language || navigator.browserLanguage || navigator.userLanguage) ? 'zh-cn' : 'en',
+        langPath:UMEDITOR_CONFIG.UMEDITOR_HOME_URL + "lang/",
+        focus: true
+    });
+	
+    function insertHtml() {
+        var value = prompt('插入html代码', '');
+        ue.execCommand('insertHtml', value)
+    }
+    function getAllHtml() {
+        alert(UM.getEditor('editor').getAllHtml())
+    }
+    function getContent() {
+        var arr = [];
+        arr.push("使用editor.getContent()方法可以获得编辑器的内容");
+        arr.push("内容为：");
+        arr.push(UM.getEditor('editor').getContent());
+        alert(arr.join("\n"));
+    }
+    function isFocus(){
+        alert(ue.isFocus())
+    }
+    function doBlur(){
+        ue.blur()
+    }
+    function getPlainTxt() {
+        var arr = [];
+        arr.push("使用editor.getPlainTxt()方法可以获得编辑器的带格式的纯文本内容");
+        arr.push("内容为：");
+        arr.push(UM.getEditor('editor').getPlainTxt());
+        alert(arr.join('\n'))
+    }
+    function setContent(isAppendTo) {
+        var arr = [];
+        arr.push("使用editor.setContent('欢迎使用umeditor', true)方法可以设置编辑器的内容");
+        UM.getEditor('editor').setContent('欢迎使用umeditor', isAppendTo);
+        alert(arr.join("\n"));
+    }
+    function setDisabled() {
+        UM.getEditor('editor').setDisabled('fullscreen');
+        disableBtn("enable");
+    }
+
+    function setEnabled() {
+        UM.getEditor('editor').setEnabled();
+        enableBtn();
+    }
+
+    function getText() {
+        //当你点击按钮时编辑区域已经失去了焦点，如果直接用getText将不会得到内容，所以要在选回来，然后取得内容
+        var range = UM.getEditor('editor').selection.getRange();
+        range.select();
+        var txt = UM.getEditor('editor').selection.getText();
+        alert(txt)
+    }
+
+    function getContentTxt() {
+        var arr = [];
+        arr.push("使用editor.getContentTxt()方法可以获得编辑器的纯文本内容");
+        arr.push("编辑器的纯文本内容为：");
+        arr.push(UM.getEditor('editor').getContentTxt());
+        alert(arr.join("\n"));
+    }
+    function hasContent() {
+        var arr = [];
+        arr.push("使用editor.hasContents()方法判断编辑器里是否有内容");
+        arr.push("判断结果为：");
+        arr.push(UM.getEditor('editor').hasContents());
+        alert(arr.join("\n"));
+    }
+    function setFocus() {
+        UM.getEditor('editor').focus();
+    }
+    function deleteEditor() {
+        disableBtn();
+        UM.getEditor('editor').destroy();
+    }
+    function disableBtn(str) {
+        var div = document.getElementById('btnContainer');
+        var btns = UM.dom.domUtils.getElementsByTagName(div, "button");
+        for (var i = 0, btn; btn = btns[i++];) {
+            if (btn.id == str) {
+                UM.dom.domUtils.removeAttributes(btn, ["disabled"]);
+            } else {
+                $(btn).attr( "disabled", true ).addClass( "disabled" );
+            }
+        }
+    }
+    function enableBtn() {
+        var div = document.getElementById('btnContainer');
+        var btns = UM.dom.domUtils.getElementsByTagName(div, "button");
+        for (var i = 0, btn; btn = btns[i++];) {
+            $(btn).removeAttr( "disabled" ).removeClass( "disabled" );
+        }
+    }
+
+ </script>
+ <script src="static/bootstrap/js/bootstrap.min.js?{VERHASH}"></script>
+<!--{template common/footer_simple}-->

@@ -1,0 +1,99 @@
+@charset "utf-8";
+/* CSS Document */
+body{
+	background:#F7F7F7;
+}
+.main-header{
+	background:#FFF;
+}
+ins {background-color: #cfc;	text-decoration: none;display:inline-block;}
+del {color: #999;	background-color:#FEC8C8;display:inline-block;}
+
+del img{padding:3px ;}
+ins img{padding:3px;}
+.editor-edit-subject {
+	border-style:solid;
+	border-width:1px 1px 0 1px;
+	border-color:#CCC;
+}
+.editor-edit-subject .doc-subject{
+	word-wrap: break-word;  
+	height: 22px;
+	display: block;
+	width: 778px;
+	padding: 30px 10px 20px 10px;
+	margin: 0 auto;
+	border: 0;
+	font-size: 22px;
+	min-height: 22px;
+	line-height:22px;
+	font-weight: bold;
+	text-align: center;
+	overflow: hidden;
+	resize: none;
+	
+}
+.editor-edit-subject .doc-subject:focus{
+	box-shadow:none;
+	border:0;
+}
+.edui-container .edui-toolbar,.edui-container {
+	box-shadow: none;
+}
+
+.document-container {
+	width:800px;
+	margin:20px auto 40px;
+	border:1px solid #CCC;
+	padding:20px;
+	background:#FFF;
+	box-shadow:0px 5px 10px #CCC;
+	overflow:hidden;
+}
+.document-container .document-header {
+		border-bottom:3px solid #DDD;
+		margin:10px 20px 5px 20px;
+}
+.document-header .document-subject {
+	font-size: 22px;
+	min-height: 22px;
+	line-height:35px;
+	margin-bottom:5px;
+}
+.document-header .document-info {
+	color:#999;
+	font-size:12px;
+	padding:5px 0;
+	line-height:1.5em;
+	height:20px;
+	
+}
+ .document-info a,.document-info span {
+	padding:3px 10px;
+}
+.document-info .version-list{
+	color:#999;
+}
+.document-info .version-list .caret{
+	margin-top:7px;	
+}
+.document-info .version-list .reversion-tag{
+	font-weight:bold;
+	padding:0;
+}
+.document-info a:hover{
+	background:#F7F7F7;
+}
+
+.document-container .document-body {
+	border-top:1px solid #DDD;
+	padding: 20px 0 0 0;
+	margin: 0 20px 0 20px;
+	min-height:150px;
+}
+.document-container .document-body p{margin:0;}
+.document-container .document-comment {
+	border-top:1px solid #DDD;
+	padding: 20px 0 0 0;
+	margin: 0 20px 0 20px;
+}
